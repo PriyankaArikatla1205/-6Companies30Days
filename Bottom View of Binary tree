@@ -1,0 +1,60 @@
+class Solution
+{
+      static class Info{
+        Node root;
+        int val;
+        public Info(int val,Node root){
+            this.root = root;
+            this.val=val;
+            
+        }
+    }
+    //Function to return a list containing the bottom view of the given tree.
+    public ArrayList <Integer> bottomView(Node root)
+    {
+        // Code here
+         ArrayList<Integer>  a = new ArrayList<Integer>();
+
+        if(root==null){
+            return a;
+        }
+        Map<Integer,Integer> map = new TreeMap<>();
+        Queue<Info>q=new LinkedList<>();
+        
+        q.add(new Info(0,root));
+        while(!q.isEmpty()){
+            int size = q.size();
+            for(int i=0;i<size;i++){
+                Info curr =q.poll();
+                if(!map.containsKey(curr.val)){
+                    map.put(curr.val,curr.root.data);
+                        
+                    
+                }
+                 if(map.containsKey(curr.val)){
+                    map.replace(curr.val,curr.root.data);
+                        
+                    
+                }
+                
+                if(curr.root.left!=null){
+                    q.add(new Info(curr.val-1,curr.root.left));
+                }
+                if(curr.root.right!=null){
+                    q.add(new Info(curr.val+1,curr.root.right));
+                }
+                    
+                }
+        }
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) 
+ {
+     a.add(entry.getValue());
+ }
+
+
+                
+                return a;
+            
+        
+    }
+}
