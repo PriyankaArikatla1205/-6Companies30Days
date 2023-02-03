@@ -1,0 +1,38 @@
+class Solution {
+    public void nextPermutation(int[] nums) {
+        
+        int n = nums.length-1,i;
+        int j;
+        for( i=n-1;i>=0;i--){
+            if(nums[i]<nums[i+1])
+            break;
+        }
+        if(i<0){
+            reverse(nums,0,n);
+        }
+        else{
+            for(j=n;j>i;j--){
+                if(nums[j]>nums[i]){
+                    break;
+                }
+                
+            }
+        
+
+            swap(nums,i,j);
+            reverse(nums, i+1, n);
+        }
+    }
+        public void reverse(int[] nums, int a, int n){
+   while(a<n){
+       swap(nums,a,n);
+       a++;
+       n--;
+   }
+        }
+        public void swap(int[] nums, int i, int k){
+            int temp = nums[i];
+            nums[i]=nums[k];
+            nums[k]=temp;
+        }
+    }
