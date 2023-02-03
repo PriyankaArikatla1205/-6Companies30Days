@@ -1,0 +1,68 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+public class pair{
+TreeNode node=null;
+int col;
+int  row;
+pair(TreeNode node,int col,int row){
+this.node=node;
+this.col=col;
+this.row=row;
+}
+}
+
+public List<List<Integer>> verticalTraversal(TreeNode root) {
+    List<List<Integer>> ans= new ArrayList<>();
+    TreeMap<Integer,PriorityQueue<pair>> map= new TreeMap<>();
+    LinkedList<pair> que= new LinkedList<>();
+
+    que.addLast(new pair(root,0,0));
+    Comparator<pair> comparator = (a,b)->{
+         if(a.row==b.row) return a.node.val-b.node.val;
+         return a.row-b.row;
+    };
+    while(!que.isEmpty()){
+        int size=que.size();
+        while(size-->0){
+            pair p=que.removeFirst();
+             map.putIfAbsent(p.col,new PriorityQueue<>(comparator));
+
+   
+
+            map.get(p.col).add(p);
+
+            if(p.node.left!=null){
+                que.addLast(new pair(p.node.left,p.col-1,p.row+1)); 
+            }
+          if(p.node.right!=null){
+                que.addLast(new pair(p.node.right,p.col+1,p.row+1));
+            }  
+
+        }
+    }
+
+    for(Integer key: map.keySet()){
+        ArrayList<Integer>list = new ArrayList<>();
+        PriorityQueue<pair> pq=map.get(key); 
+        while(pq.size()>0){
+            list.add(pq.poll().node.val);
+        }
+        ans.add(list);
+    }
+    return ans;
+}
+}
